@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState,useRef, useEffect} from 'react'
 import {useTodoLayerValue} from "./context/TodoContext"
 import TodoList from "./components/TodoList";
 import "./App.css"
@@ -8,6 +8,13 @@ const App = () => {
   const [{todos}, dispatch] = useTodoLayerValue();
   const [content, setContent] = useState('');
   //inputa yazı girildiğinde değişiklik yapacağız.
+
+  const inputRef = useRef(null)
+  //bir referans oluşturduk kullanmak için 
+
+  useEffect(()=> {
+    inputRef.current.focus();
+  },[]);
 
   const handleSubmit = (event) => {
     event.preventDefault(); //kaydetme işlemi yapıldığında sayfa otomatik referesh yapılmaz
@@ -35,10 +42,9 @@ const App = () => {
      
     });
     
-    setContent(' ') //yeni eklendikten sonra contentin içini boşalltık
+    setContent('') //yeni eklendikten sonra contentin içini boşalltık
 
   };
- 
 
   return (
     <div className='container'>
@@ -48,6 +54,7 @@ const App = () => {
         className="todo-input"
         onChange={(event => setContent(event.target.value))}
         value={content}
+        ref={inputRef}
         />
         <button className="todo-button">Ekle</button>
         
